@@ -20,6 +20,11 @@ function saveStudentInfo(event){
         }
     }
 
+    let students = JSON.parse(localStorage.getItem('students')) || [];
+    students.push(newStudent);
+    localStorage.setItem('students', JSON.stringify(students));
+
+
     console.log('New Student Object:', newStudent);
 
     alert('Student information saved successfully!');
