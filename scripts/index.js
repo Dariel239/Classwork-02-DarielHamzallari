@@ -1,20 +1,20 @@
 function fetchStudentsFromLocalStorage(){
    const students = JSON.parse(localStorage.getItem('students')) || [];
-   const tableBody = document.getElementById('tableBody');
+   const tableBody = $('#tableBody');
 
 
    // Clear the table body
-   tableBody.innerHTML = '';
+   tableBody.html('');
 
 
    if (students.length === 0) {
-       tableBody.innerHTML = `
+       tableBody.html(`
            <tr>
                <td colspan="8" class="text-center text-muted py-4">
                    No students added yet. Click "Add Student" to get started.
                </td>
            </tr>
-       `;
+       `);
        return;
    }
 
@@ -43,7 +43,7 @@ function fetchStudentsFromLocalStorage(){
                </td>
            </tr>
        `;
-       tableBody.innerHTML += row;
+       tableBody.append(row);
    });
 
 }
@@ -58,7 +58,7 @@ function deleteStudent(studentId) {
     window.location.href = 'delete-student.html';
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+$(document).on('DOMContentLoaded', () => {
     console.log('DOM fully loaded and parsed');
     // You can add any initialization code here if needed
 

@@ -14,21 +14,21 @@ function saveStudentInfo(event){
 
     event.preventDefault(); // Prevent form submission
 
-    let studentName = document.getElementById('studentName').value;
+    let $studentName = $('#studentName').val();
     let studentID = generateStudentId(); // Auto-generate student ID
-    let mathGrade = document.getElementById('mathGrade').value;
-    let englishGrade = document.getElementById('englishGrade').value;
-    let scienceGrade = document.getElementById('scienceGrade').value;
+    let $mathGrade = $('#mathGrade').val();
+    let $englishGrade = $('#englishGrade').val();
+    let $scienceGrade = $('#scienceGrade').val();
 
     console.log('Student Name:', studentName);
 
     let newStudent = {
-        name: studentName,
+        name: $studentName,
         id: studentID,
         grades: {
-            math: mathGrade,
-            english: englishGrade,
-            science: scienceGrade
+            math: $mathGrade,
+            english: $englishGrade,
+            science: $scienceGrade
         }
     }
 
@@ -41,5 +41,4 @@ function saveStudentInfo(event){
 
     alert('Student information saved successfully!');
     window.location.href = 'index.html';
-
 }

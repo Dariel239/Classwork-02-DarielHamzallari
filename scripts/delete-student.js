@@ -17,8 +17,8 @@ function loadStudentInfo() {
     }
 
     // Display student info
-    document.getElementById('infoName').textContent = student.name;
-    document.getElementById('infoId').textContent = student.id;
+    $('#infoName').text(student.name);
+    $('#infoId').text(student.id);
 }
 
 function confirmDelete() {
@@ -35,11 +35,11 @@ function confirmDelete() {
     window.location.href = 'index.html';
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+$(document).on('DOMContentLoaded', function() {
     loadStudentInfo();
 
-    const deleteBtn = document.getElementById('confirmDeleteBtn');
+    const deleteBtn = $('#confirmDeleteBtn');
     if (deleteBtn) {
-        deleteBtn.addEventListener('click', confirmDelete);
+        deleteBtn.on('click', confirmDelete);
     }
 });

@@ -10,6 +10,8 @@ function loadStudentData() {
     const students = JSON.parse(localStorage.getItem('students')) || [];
     const student = students.find(s => s.id === studentId);
 
+    console.log('Loaded student for editing:', student);
+
     if (!student) {
         alert('Student not found');
         window.location.href = 'index.html';
@@ -17,11 +19,11 @@ function loadStudentData() {
     }
 
     // Populate the form with student data
-    document.getElementById('studentName').value = student.name;
-    document.getElementById('studentId').value = student.id;
-    document.getElementById('mathGrade').value = student.grades.math;
-    document.getElementById('englishGrade').value = student.grades.english;
-    document.getElementById('scienceGrade').value = student.grades.science;
+    $('#studentName').val(student.name);
+    $('#studentId').val(student.id);
+    $('#mathGrade').val(student.grades.math);
+    $('#englishGrade').val(student.grades.english);
+    $('#scienceGrade').val(student.grades.science);
 }
 
 function updateStudent(event) {
@@ -39,12 +41,12 @@ function updateStudent(event) {
 
     // Update student data
     students[studentIndex] = {
-        name: document.getElementById('studentName').value,
+        name: $('#studentName').val(),
         id: studentId, // Keep the same ID
         grades: {
-            math: document.getElementById('mathGrade').value,
-            english: document.getElementById('englishGrade').value,
-            science: document.getElementById('scienceGrade').value
+            math: $('#mathGrade').val(),
+            english: $('#englishGrade').val(),
+            science: $('#scienceGrade').val()
         }
     };
 
@@ -55,11 +57,13 @@ function updateStudent(event) {
     window.location.href = 'index.html';
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+$(document).on('DOMContentLoaded', function() {
+    console.log('Edit Student page loaded');
     loadStudentData();
+    console.log('Student data loaded into form');
 
-    const form = document.getElementById('editStudentForm');
+    const form = $('#editStudentForm');
     if (form) {
-        form.addEventListener('submit', updateStudent);
+        form.on('submit', updateStudent);
     }
 });
