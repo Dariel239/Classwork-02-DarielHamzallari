@@ -29,11 +29,7 @@ async function fetchQuote() {
         }   
         
         let quote;
-        if (Array.isArray(data)) {
-            quote = data[0];
-        } else {
-            quote = data;
-        }
+        quote = data;
         
         if (quote.text && quote.author) {
             quoteText.textContent = `"${quote.text}"`;
