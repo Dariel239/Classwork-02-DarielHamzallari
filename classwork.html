@@ -22,6 +22,28 @@
             color: #333;
             margin-top: 0;
         }
+        .search-box {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 5px;
+        }
+        input, select {
+            padding: 8px;
+            margin: 5px;
+            width: 200px;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
         .quote-box {
             background: #f9f9f9;
             padding: 20px;
@@ -36,18 +58,6 @@
             border-radius: 5px;
             font-size: 12px;
             margin-top: 10px;
-        }
-        button {
-            background: #007bff;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        button:hover {
-            background: #0056b3;
         }
         .error {
             color: red;
@@ -67,16 +77,26 @@
 </head>
 <body>
     <div class="container">
-        <h1>Random Quote Generator</h1>
-        <p>Powered by RapidAPI</p>
+        <h1>Quote Finder</h1>
+        <p>Search quotes by category or author</p>
         
-        <div class="quote-box">
-            <p><strong>Quote:</strong> <span id="quoteText">Click the button to get a quote</span></p>
-            <p><strong>Author:</strong> <span id="quoteAuthor">Unknown</span></p>
-            <p><strong>Category:</strong> <span id="quoteCategory">-</span></p>
+        <div class="search-box">
+            <label>Search by:</label>
+            <select id="searchType">
+                <option value="random">Random Quote</option>
+                <option value="category">Category</option>
+                <option value="author">Author</option>
+            </select>
+            
+            <input type="text" id="searchValue" placeholder="Enter category or author..." style="display:none;">
+            <button onclick="searchQuote()">Get Quote</button>
         </div>
         
-        <button onclick="fetchQuote()">Get New Quote</button>
+        <div class="quote-box">
+            <p><strong>Quote:</strong> <span id="quoteText">Select an option to get a quote!</span></p>
+            <p><strong>Author:</strong> <span id="quoteAuthor">-</span></p>
+            <p><strong>Category:</strong> <span id="quoteCategory">-</span></p>
+        </div>
         
         <hr>
         <div class="footer">
