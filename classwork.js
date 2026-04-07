@@ -6,50 +6,108 @@ const API_CONFIG = {
     }
 };
 
-async function fetchQuote() {
+// Show/hide input field based on search type
+document.getElementById('searchType').addEventListener('change', function() {
+    const searchValue = document.getElementById('searchValue');
+    if (this.value === 'random') {
+        searchValue.style.display = 'none';
+        searchValue.value = '';
+    } else {
+        searchValue.style.display = 'inline-block';
+        searchValue.placeholder = this.value === 'category' ? 'Enter category (e.g., love, war, hope)...' : 'Enter author name...';
+    }
+});
+
+async function searchQuote() {
     const quoteText = document.getElementById('quoteText');
     const quoteAuthor = document.getElementById('quoteAuthor');
     const quoteCategory = document.getElementById('quoteCategory');
+    const searchType = document.getElementById('searchType').value;
+    const searchValue = document.getElementById('searchValue').value;
     
-    quoteText.textContent = 'Loading...';
+    quoteText.textContent = 'Searching...';
     quoteAuthor.textContent = '';
-    if (quoteCategory) quoteCategory.textContent = '';
+    quoteCategory.textContent = '';
     
     try {
-        const response = await fetch(API_CONFIG.url, {
+        let url;
+        
+        // Build URL based on search type
+        if (searchType === 'random') {
+            url = 'https://famous-quotes4.p.rapidapi.com/random';
+        } else if (searchType === 'category') {
+            if (!searchValue) {
+                alert('Please enter a category!');
+                return;
+            }
+            url = `https://famous-quotes4.p.rapidapi.com/random?category=${encodeURIComponent(searchValue.toLowerCase())}`;
+        } else if (searchType === 'author') {
+            if (!searchValue) {
+                alert('Please enter an author name!');
+                return;
+            }
+            url = `https://famous-quotes4.p.rapidapi.com/random?author=${encodeURIComponent(searchValue)}`;
+        }
+        
+        const response = await fetch(url, {
             method: 'GET',
             headers: API_CONFIG.headers
         });
         
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        if (!response.ok) {
+            if (response.status === 429) {
+                throw new Error('API limit reached. Please try again later.');
+            }
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
         
         let data = await response.json();
         
         if (typeof data === 'string') {
             data = JSON.parse(data);
-        }   
-        
-        // FIX: Handle array response
+        }
+
         let quote;
         if (Array.isArray(data)) {
+            if (data.length === 0) {
+                throw new Error(`No quotes found for ${searchType}: ${searchValue}`);
+            }
             quote = data[0];
         } else {
             quote = data;
         }
         
+        // Check if quote matches search (API might return random if none found)
+        if (searchType === 'category' && quote.category.toLowerCase() !== searchValue.toLowerCase()) {
+            quoteText.textContent = `No quotes found for category "${searchValue}". Try a different category.`;
+            quoteAuthor.textContent = '';
+            quoteCategory.textContent = '';
+            return;
+        }
+        
+        if (searchType === 'author' && !quote.author.toLowerCase().includes(searchValue.toLowerCase())) {
+            quoteText.textContent = `No quotes found for author "${searchValue}". Try a different author name.`;
+            quoteAuthor.textContent = '';
+            quoteCategory.textContent = '';
+            return;
+        }
+        
         quoteText.textContent = `"${quote.text}"`;
         quoteAuthor.textContent = quote.author;
         
-        let categoryText = String(quote.category); 
+        let categoryText = String(quote.category);
         quoteCategory.textContent = categoryText.charAt(0).toUpperCase() + categoryText.slice(1);
         
     } catch (error) {
         console.error('Error:', error);
-        quoteText.innerHTML = '<span class="error">Failed to fetch quote. Check API key.</span>';
+        quoteText.innerHTML = `<span class="error">${error.message}</span>`;
         quoteAuthor.textContent = 'Error';
-        if (quoteCategory) quoteCategory.textContent = '';
+        quoteCategory.textContent = '';
     }
 }
 
-// Fetch quote when page loads
-window.addEventListener('DOMContentLoaded', fetchQuote);
+window.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('searchType').value = 'random';
+    document.getElementById('searchValue').style.display = 'none';
+    searchQuote();
+});
