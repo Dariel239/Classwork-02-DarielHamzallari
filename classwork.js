@@ -45,7 +45,7 @@ async function fetchQuote() {
             quoteText.textContent = `"${quote.text || JSON.stringify(quote)}"`;
             quoteAuthor.textContent = quote.author || 'Anonymous';
             if (quote.category && quoteCategory) {
-                quoteCategory.textContent = quote.category;
+                quoteCategory.textContent = quote.category.charAt(0).toUpperCase() + quote.category.slice(1);
             }
         }
         
