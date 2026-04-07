@@ -28,6 +28,15 @@
             border-left: 4px solid #007bff;
             margin: 20px 0;
         }
+        .category {
+            display: inline-block;
+            background: #007bff;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            margin-top: 10px;
+        }
         button {
             background: #007bff;
             color: white;
@@ -64,13 +73,14 @@
         <div class="quote-box">
             <p><strong>Quote:</strong> <span id="quoteText">Click the button to get a quote</span></p>
             <p><strong>Author:</strong> <span id="quoteAuthor">Unknown</span></p>
+            <p><strong>Category:</strong> <span id="quoteCategory">-</span></p>
         </div>
         
         <button onclick="fetchQuote()">Get New Quote</button>
         
         <hr>
         <div class="footer">
-            API: Famous Quotes API from RapidAPI
+            API: Famous Quotes API via RapidAPI
         </div>
     </div>
 
