@@ -6,7 +6,6 @@ const API_CONFIG = {
     }
 };
 
-// Show/hide input field based on search type
 document.getElementById('searchType').addEventListener('change', function() {
     const searchValue = document.getElementById('searchValue');
     if (this.value === 'random') {
@@ -14,7 +13,7 @@ document.getElementById('searchType').addEventListener('change', function() {
         searchValue.value = '';
     } else {
         searchValue.style.display = 'inline-block';
-        searchValue.placeholder = this.value === 'category' ? 'Enter category (e.g., love, war, hope)...' : 'Enter author name...';
+        searchValue.placeholder = 'Enter category (e.g., love, war, hope)...';
     }
 });
 
@@ -31,8 +30,7 @@ async function searchQuote() {
     
     try {
         let url;
-        
-        // Build URL based on search type
+
         if (searchType === 'random') {
             url = 'https://famous-quotes4.p.rapidapi.com/random';
         } else if (searchType === 'category') {
@@ -41,12 +39,6 @@ async function searchQuote() {
                 return;
             }
             url = `https://famous-quotes4.p.rapidapi.com/random?category=${encodeURIComponent(searchValue.toLowerCase())}`;
-        } else if (searchType === 'author') {
-            if (!searchValue) {
-                alert('Please enter an author name!');
-                return;
-            }
-            authorUrl = `https://famous-quotes4.p.rapidapi.com/api/v1/quotes/${encodeURIComponent(searchValue)}`;
         }
         
         const response = await fetch(url, {
@@ -66,7 +58,7 @@ async function searchQuote() {
         if (typeof data === 'string') {
             data = JSON.parse(data);
         }
-
+        
         let quote;
         if (Array.isArray(data)) {
             if (data.length === 0) {
@@ -77,16 +69,9 @@ async function searchQuote() {
             quote = data;
         }
         
-        // Check if quote matches search (API might return random if none found)
+        // Check if quote matches category search
         if (searchType === 'category' && quote.category.toLowerCase() !== searchValue.toLowerCase()) {
-            quoteText.textContent = `No quotes found for category "${searchValue}". Try a different category.`;
-            quoteAuthor.textContent = '';
-            quoteCategory.textContent = '';
-            return;
-        }
-        
-        if (searchType === 'author' && !quote.author.toLowerCase().includes(searchValue.toLowerCase())) {
-            quoteText.textContent = `No quotes found for author "${searchValue}". Try a different author name.`;
+            quoteText.textContent = `No quotes found for category "${searchValue}". Try: love, war, hope, life, success, wisdom`;
             quoteAuthor.textContent = '';
             quoteCategory.textContent = '';
             return;
