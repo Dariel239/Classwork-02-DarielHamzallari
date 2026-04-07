@@ -46,7 +46,7 @@ async function searchQuote() {
                 alert('Please enter an author name!');
                 return;
             }
-            url = `https://famous-quotes4.p.rapidapi.com/random?author=${encodeURIComponent(searchValue)}`;
+            authorUrl = `https://famous-quotes4.p.rapidapi.com/api/v1/quotes/${encodeURIComponent(searchValue)}`;
         }
         
         const response = await fetch(url, {
