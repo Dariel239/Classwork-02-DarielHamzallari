@@ -23,19 +23,25 @@ async function fetchQuote() {
         
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         
-        const data = await response.json();
+        let data = await response.json();
+        
         if (typeof data === 'string') {
             data = JSON.parse(data);
         }   
         
+        // FIX: Handle array response
         let quote;
-        quote = data;
+        if (Array.isArray(data)) {
+            quote = data[0];
+        } else {
+            quote = data;
+        }
         
-    quoteText.textContent = `"${quote.text}"`;
-    quoteAuthor.textContent = quote.author;
-    let categoryText = String(quote.category); 
-    quoteCategory.textContent = categoryText.charAt(0).toUpperCase() + categoryText.slice(1);
-
+        quoteText.textContent = `"${quote.text}"`;
+        quoteAuthor.textContent = quote.author;
+        
+        let categoryText = String(quote.category); 
+        quoteCategory.textContent = categoryText.charAt(0).toUpperCase() + categoryText.slice(1);
         
     } catch (error) {
         console.error('Error:', error);
