@@ -85,8 +85,11 @@
             <select id="searchType">
                 <option value="random">Random Quote</option>
                 <option value="category">Category</option>
-                <option value="author">Author</option>
             </select>
+    
+    <input type="text" id="searchValue" placeholder="Enter category..." style="display:none;">
+    <button onclick="searchQuote()">Get Quote</button>
+</div>
             
             <input type="text" id="searchValue" placeholder="Enter category or author..." style="display:none;">
             <button onclick="searchQuote()">Get Quote</button>
