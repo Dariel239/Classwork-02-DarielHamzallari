@@ -33,7 +33,8 @@ async function fetchQuote() {
         
     quoteText.textContent = `"${quote.text}"`;
     quoteAuthor.textContent = quote.author;
-    quoteCategory.textContent = quote.category.toUpperCase();
+    let categoryText = String(quote.category); 
+    quoteCategory.textContent = categoryText.charAt(0).toUpperCase() + categoryText.slice(1);
 
         
     } catch (error) {
