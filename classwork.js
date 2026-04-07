@@ -31,19 +31,9 @@ async function fetchQuote() {
         let quote;
         quote = data;
         
-        if (quote.text && quote.author) {
-            quoteText.textContent = `"${quote.text}"`;
-            quoteAuthor.textContent = quote.author;
-            if (quote.category) {
-                if (quoteCategory) quoteCategory.textContent = quote.category;
-            }
-        } else {
-            quoteText.textContent = `"${quote.text || JSON.stringify(quote)}"`;
-            quoteAuthor.textContent = quote.author || 'Anonymous';
-            if (quote.category && quoteCategory) {
-                quoteCategory.textContent = quote.category.charAt(0).toUpperCase() + quote.category.slice(1);
-            }
-        }
+    quoteText.textContent = `"${quote.text}"`;
+    quoteAuthor.textContent = quote.author;
+    quoteCategory.textContent = quote.category.charAt(0).toUpperCase() + quote.category.slice(1);
         
     } catch (error) {
         console.error('Error:', error);
